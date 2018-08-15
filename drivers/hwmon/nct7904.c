@@ -81,7 +81,9 @@ struct nct7904_data {
 static int nct7904_bank_lock(struct nct7904_data *data, unsigned bank)
 {
 	int ret;
-
+	struct i2c_client *client = data->client;
+	struct i2c_adapter *adapter = client->adapter;
+	
 	mutex_lock(&data->bank_lock);
 	if (data->bank_sel == bank)
 		return 0;
