@@ -180,9 +180,9 @@ static struct hdd_g2_data *hdd_micron_update_temperature(struct device *dev)
 
 	data->temperature = hdd_micron_get_temperature(dev, 0x00);
 
-	mutex_unlock(&adapter->userspace_clients_lock);
 	mutex_unlock(&data->update_lock);
 	mutex_unlock(&inspect_update_lock);
+	mutex_unlock(&adapter->userspace_clients_lock);
 	return data;
 }
 
@@ -266,9 +266,10 @@ static struct hdd_g2_data *hdd_pm963_update_temperature(struct device *dev, ssiz
 
 	data->temperature = hdd_pm963_get_temperature(dev, device_index);
 
-	mutex_unlocklock(&adapter->userspace_clients_lock);
+	
 	mutex_unlock(&data->update_lock);
 	mutex_unlock(&inspect_update_lock);
+	mutex_unlock(&adapter->userspace_clients_lock);
 	return data;
 }
 
