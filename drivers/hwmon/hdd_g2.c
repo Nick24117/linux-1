@@ -171,12 +171,16 @@ micron_abort:
 static struct hdd_g2_data *hdd_micron_update_temperature(struct device *dev)
 {
 	struct hdd_g2_data *data = dev_get_drvdata(dev);
-
+	struct i2c_client *client = data->client;
+	struct i2c_adapter *adapter = client->adapter;
+	
+	mutex_lock(&adapter->userspace_clients_lock);
 	mutex_lock(&inspect_update_lock);
 	mutex_lock(&data->update_lock);
 
 	data->temperature = hdd_micron_get_temperature(dev, 0x00);
 
+	mutex_unlock(&adapter->userspace_clients_lock);
 	mutex_unlock(&data->update_lock);
 	mutex_unlock(&inspect_update_lock);
 	return data;
@@ -248,17 +252,21 @@ pm963_abort:
 static struct hdd_g2_data *hdd_pm963_update_temperature(struct device *dev, ssize_t device_index)
 {
 	struct hdd_g2_data *data = dev_get_drvdata(dev);
-
+	struct i2c_client *client = data->client;
+	struct i2c_adapter *adapter = client->adapter;
+	
 	if (device_index < 0) {
 		data->temperature = 0;
 		return data;
 	}
-
+	
+	mutex_lock(&adapter->userspace_clients_lock);
 	mutex_lock(&inspect_update_lock);
 	mutex_lock(&data->update_lock);
 
 	data->temperature = hdd_pm963_get_temperature(dev, device_index);
 
+	mutex_unlocklock(&adapter->userspace_clients_lock);
 	mutex_unlock(&data->update_lock);
 	mutex_unlock(&inspect_update_lock);
 	return data;

@@ -84,6 +84,7 @@ static int nct7904_bank_lock(struct nct7904_data *data, unsigned bank)
 	struct i2c_client *client = data->client;
 	struct i2c_adapter *adapter = client->adapter;
 	
+	mutex_lock(&adapter->userspace_clients_lock);
 	mutex_lock(&data->bank_lock);
 	if (data->bank_sel == bank)
 		return 0;
@@ -98,6 +99,7 @@ static int nct7904_bank_lock(struct nct7904_data *data, unsigned bank)
 static inline void nct7904_bank_release(struct nct7904_data *data)
 {
 	mutex_unlock(&data->bank_lock);
+	mutex_unlock(&adapter->userspace_clients_lock);
 }
 
 /* Read 1-byte register. Returns unsigned reg or -ERRNO on error. */
