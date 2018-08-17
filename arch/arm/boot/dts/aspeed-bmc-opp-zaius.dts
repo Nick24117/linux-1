@@ -407,6 +407,7 @@
 	};
 
 	/* Fan board */
+	/*
 	lm75@4a {
 		compatible = "national,lm75";
 		reg = <0x4a>;
@@ -447,6 +448,7 @@
 		compatible = "hdd_expander";
 		reg = <0x5f>;
 	};
+	*/
 };
 
 &i2c10 {
