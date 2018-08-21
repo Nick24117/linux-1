@@ -406,6 +406,7 @@
 		reg = <0x2e>;
 	};
 */
+
 	/* Fan board */
 /*	lm75@4a {
 		compatible = "national,lm75";
