@@ -98,9 +98,6 @@ static int nct7904_bank_lock(struct nct7904_data *data, unsigned bank)
 
 static inline void nct7904_bank_release(struct nct7904_data *data)
 {
-	struct i2c_client *client = data->client;
-	struct i2c_adapter *adapter = client->adapter;
-	
 	mutex_unlock(&data->bank_lock);
 	mutex_unlock(&adapter->userspace_clients_lock);
 }
