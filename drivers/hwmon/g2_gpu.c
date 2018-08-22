@@ -341,7 +341,7 @@ static const unsigned short normal_i2c[] = { 0x4f, I2C_CLIENT_END };
 static struct i2c_driver g50_gpu_driver = {
 	.class		= I2C_CLASS_HWMON,
 	.driver = {
-		.name	= "g50_gpu",
+		.name	= "g2_gpu",
 	},
 	.probe		= g50_gpu_probe,
 	.remove		= g50_gpu_remove,
