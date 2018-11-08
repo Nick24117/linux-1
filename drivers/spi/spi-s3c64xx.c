@@ -1,17 +1,7 @@
-/*
- * Copyright (C) 2009 Samsung Electronics Ltd.
- *	Jaswinder Singh <jassi.brar@samsung.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- */
+// SPDX-License-Identifier: GPL-2.0+
+//
+// Copyright (c) 2009 Samsung Electronics Co., Ltd.
+//      Jaswinder Singh <jassi.brar@samsung.com>
 
 #include <linux/init.h>
 #include <linux/module.h>
@@ -752,7 +742,6 @@ static int s3c64xx_spi_setup(struct spi_device *spi)
 {
 	struct s3c64xx_spi_csinfo *cs = spi->controller_data;
 	struct s3c64xx_spi_driver_data *sdd;
-	struct s3c64xx_spi_info *sci;
 	int err;
 
 	sdd = spi_master_get_devdata(spi->master);
@@ -787,8 +776,6 @@ static int s3c64xx_spi_setup(struct spi_device *spi)
 
 		spi_set_ctldata(spi, cs);
 	}
-
-	sci = sdd->cntrlr_info;
 
 	pm_runtime_get_sync(&sdd->pdev->dev);
 
@@ -1273,8 +1260,6 @@ static int s3c64xx_spi_resume(struct device *dev)
 	if (ret < 0)
 		return ret;
 
-	s3c64xx_spi_hwinit(sdd, sdd->port_id);
-
 	return spi_master_resume(master);
 }
 #endif /* CONFIG_PM_SLEEP */
@@ -1311,6 +1296,8 @@ static int s3c64xx_spi_runtime_resume(struct device *dev)
 	ret = clk_prepare_enable(sdd->clk);
 	if (ret != 0)
 		goto err_disable_src_clk;
+
+	s3c64xx_spi_hwinit(sdd, sdd->port_id);
 
 	return 0;
 
